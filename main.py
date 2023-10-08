@@ -109,7 +109,7 @@ atest = names
 aqtest = createAnimals(atest)
 animalFolder = r"C:\Users\darre\Documents\Python\Projects\nasa\Animals"
 for file in os.listdir(animalFolder):
-    file_path = os.path.join(folder_path, file)
+    file_path = os.path.join(animalFolder, file)
     if os.path.isfile(file_path):
         os.remove(file_path)
     elif os.path.isdir(file_path):
