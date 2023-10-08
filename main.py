@@ -1,5 +1,5 @@
-from requests_htm import HTMLSession
-import psutil, os
+from requests_html import HTMLSession
+import psutil, os, requests
 from bs4 import BeautifulSoup
 
 try:
