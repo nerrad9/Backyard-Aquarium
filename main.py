@@ -51,7 +51,6 @@ def buildURL(inLat, inLong, size):
 
 #lat, lng = 38.1380 , -92.8104
 url = buildURL(float(lat), float(lng), 4)
-print(url)
 count = 0
 while count < 10:
     session = HTMLSession()
@@ -74,7 +73,6 @@ while count < 10:
         else:
             count += 1
 
-print(names)
 import wikipedia as wp
 from rembg import remove
 
