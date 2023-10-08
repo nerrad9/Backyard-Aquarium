@@ -1,7 +1,6 @@
-from requests_html import HTMLSession
+from requests_htm import HTMLSession
 import psutil, os
 from bs4 import BeautifulSoup
-
 
 try:
     while True:
@@ -77,27 +76,51 @@ while count < 10:
 
 print(names)
 import wikipedia as wp
+from rembg import remove
 
 def getAnimalInfo(animal):
-	pages = wp.search(animal)
-	page = wp.page(pages[0], auto_suggest=False)
-	imgs = page.images
-	summary = page.summary
-	return (summary, imgs[0])
+    pages = wp.search(animal)
+    page = wp.page(pages[0], auto_suggest=False)
+    imgs = page.images
+    summary = page.summary
+    return (summary, imgs[0], page.url)
 
 class animal:
-	def __init__(self, name, info, image):
-		self.name = name
-		self.info = info
-		self.imagelink = image
+    def __init__(self, name, info, image, url):
+        self.name = name
+        lines = info.split(" ")
+        self.info = ""
+        self.url = url
+        for i in range(50):
+            try:
+                self.info += lines[i]
+                self.info += " "
+            except:
+                pass
+        self.info += "... (" + self.url + ")"
+        self.imagelink = image
 
 def createAnimals(animals):
-	aquarium = []
-	for a in animals:
-		info = getAnimalInfo(a)
-		aquarium.append(animal(a, info[0], info[1]))
-	return aquarium
+    aquarium = []
+    for a in animals:
+        info = getAnimalInfo(a)
+        aquarium.append(animal(a, info[0], info[1], info[2]))
+    return aquarium
 
 atest = names
 aqtest = createAnimals(atest)
-for a in aqtest: print(a.info)
+animalFolder = r"C:\Users\darre\Documents\Python\Projects\nasa\Animals"
+for file in os.listdir(animalFolder):
+    file_path = os.path.join(folder_path, file)
+    if os.path.isfile(file_path):
+        os.remove(file_path)
+    elif os.path.isdir(file_path):
+        os.rmdir(file_path)
+for a in aqtest:
+    newAnimal = os.path.join(animalFolder,a.name)
+    os.mkdir(newAnimal)
+    with open("Animals/"+a.name+"summary.txt", "w")as file:
+        file.write(a.info)
+    with open("Animals/"+a.name+"image.png", "wb")as file:
+        x = requests.get(a.imagelink).raw
+        file.write(remove(x))
